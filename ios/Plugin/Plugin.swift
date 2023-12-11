@@ -166,8 +166,10 @@ public class NativeBiometric: CAPPlugin {
         
         let status = SecItemAdd(query as CFDictionary, nil)
         
+        print("SecItemAdd finished with status: \(status)")
+
         guard status != errSecDuplicateItem else { throw KeychainError.duplicateItem }
-        guard status == errSecSuccess else { throw KeychainError.unhandledError(status: status) }
+        guard (status == errSecSuccess || status == 0) else { throw KeychainError.unhandledError(status: status) }
     }
     
     // Update user Credentials in Keychain
